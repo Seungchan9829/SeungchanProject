@@ -1,18 +1,14 @@
 package ksc.ts.controller;
 
 
-import ksc.ts.dto.CreateAccountRequest;
-import ksc.ts.dto.CreateAccountResponse;
-import ksc.ts.model.Account;
+import ksc.ts.dto.account.CreateAccountRequest;
+import ksc.ts.dto.account.CreateAccountResponse;
+import ksc.ts.dto.account.GetAccountResponse;
 import ksc.ts.service.AccountService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-
-@Controller
+@RestController
 @RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
@@ -28,6 +24,13 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+
+    @GetMapping("/{accountId}")
+    public ResponseEntity<GetAccountResponse> getAccount(@PathVariable long accountId) {
+        GetAccountResponse response = accountService.getAccount(accountId);
+
+        return ResponseEntity.ok(response);
+    }
 
 
 

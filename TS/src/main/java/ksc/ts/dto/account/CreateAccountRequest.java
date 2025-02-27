@@ -1,4 +1,4 @@
-package ksc.ts.dto;
+package ksc.ts.dto.account;
 
 
 import lombok.Builder;

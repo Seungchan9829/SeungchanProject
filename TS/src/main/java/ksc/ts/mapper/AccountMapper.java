@@ -1,8 +1,9 @@
 package ksc.ts.mapper;
 
 
-import ksc.ts.dto.CreateAccountRequest;
-import ksc.ts.dto.CreateAccountResponse;
+import ksc.ts.dto.account.CreateAccountRequest;
+import ksc.ts.dto.account.CreateAccountResponse;
+import ksc.ts.dto.account.GetAccountResponse;
 import ksc.ts.model.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,6 +22,9 @@ public interface AccountMapper {
 
     @Mapping(source = "user.id", target = "userId")
     CreateAccountResponse toCreateAccountResponse(Account account);
+
+    @Mapping(source = "user.id", target = "userId")
+    GetAccountResponse toGetAccountResponse(Account account);
 
 }
 

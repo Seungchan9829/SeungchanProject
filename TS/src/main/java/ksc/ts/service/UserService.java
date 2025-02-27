@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserService {
     private final UserRepository userRepository;
 
+
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -40,7 +41,7 @@ public class UserService {
         return UserResponse.builder()
                 .id(savedUser.getId())
                 .userEmail(savedUser.getUserEmail())
-                .userName(savedUser.getUserName())
+                .userName(savedUser.getName())
                 .build();
 
     }
@@ -61,7 +62,7 @@ public class UserService {
         return UserResponse.builder()
                 .id(savedUser.getId())
                 .userEmail(savedUser.getUserEmail())
-                .userName(savedUser.getUserName())
+                .userName(savedUser.getName())
                 .build();
 
     }
@@ -82,7 +83,7 @@ public class UserService {
         return UserResponse.builder()
                 .id(findUser.getId())
                 .userEmail(findUser.getUserEmail())
-                .userName(findUser.getUserName())
+                .userName(findUser.getName())
                 .build();
     }
 
