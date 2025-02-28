@@ -4,7 +4,6 @@ package ksc.ts.service;
 import jakarta.transaction.Transactional;
 import ksc.ts.dto.UserRequest;
 import ksc.ts.dto.UserResponse;
-import ksc.ts.exception.UserNotFoundException;
 import ksc.ts.model.User;
 import ksc.ts.repository.UserRepository;
 import org.springframework.http.HttpStatus;

@@ -4,18 +4,15 @@ import jakarta.transaction.Transactional;
 import ksc.ts.dto.account.CreateAccountRequest;
 import ksc.ts.dto.account.CreateAccountResponse;
 import ksc.ts.dto.account.GetAccountResponse;
-import ksc.ts.exception.AccountNotFoundException;
+import ksc.ts.exception.ResourceNotFoundException;
 import ksc.ts.exception.ResourceConflictException;
-import ksc.ts.exception.UserNotFoundException;
 import ksc.ts.mapper.AccountMapper;
 import ksc.ts.model.Account;
 import ksc.ts.model.User;
 import ksc.ts.repository.AccountRepository;
 import ksc.ts.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AccountService {
@@ -35,7 +32,7 @@ public class AccountService {
     @Transactional
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
 
-        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new ResourceNotFoundException("사용자를 찾을 수 없습니다."));
 
         try {
             Account account = accountMapper.toEntity(request);
@@ -58,7 +55,7 @@ public class AccountService {
         //User user = userRepository.findById(accountId).orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
 
         // 추후 사용자 로직 포함해서 수정필요
-        Account findAccount = accountRepository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("계좌를 찾을 수 없습니다."));
+        Account findAccount = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("계좌를 찾을 수 없습니다."));
 
         return accountMapper.toGetAccountResponse(findAccount);
 
