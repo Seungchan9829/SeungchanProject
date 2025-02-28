@@ -5,12 +5,14 @@ import ksc.ts.dto.account.CreateAccountRequest;
 import ksc.ts.dto.account.CreateAccountResponse;
 import ksc.ts.dto.account.GetAccountResponse;
 import ksc.ts.exception.AccountNotFoundException;
+import ksc.ts.exception.ResourceConflictException;
 import ksc.ts.exception.UserNotFoundException;
 import ksc.ts.mapper.AccountMapper;
 import ksc.ts.model.Account;
 import ksc.ts.model.User;
 import ksc.ts.repository.AccountRepository;
 import ksc.ts.repository.UserRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,19 +37,19 @@ public class AccountService {
 
         User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
 
-        accountRepository.findByAccountNumber(request.getAccountNumber()).ifPresent(account -> {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "중복된 계좌 번호입니다.");
-        });
-
-        Account account = accountMapper.toEntity(request);
-
-        account.setUser(user);
-
-        Account createdAccount = accountRepository.save(account);
-
-
-        return accountMapper.toCreateAccountResponse(createdAccount);
-
+        try {
+            Account account = accountMapper.toEntity(request);
+            account.setUser(user);
+            Account createdAccount = accountRepository.save(account);
+            
+            return accountMapper.toCreateAccountResponse(createdAccount);
+            
+        } catch (DataIntegrityViolationException e) {
+            throw new ResourceConflictException("중복된 계좌번호입니다.");
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        
     }
 
     @Transactional

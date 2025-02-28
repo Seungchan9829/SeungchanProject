@@ -24,7 +24,7 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column
+    @Column(unique = true)
     private String accountNumber;
 
     @Column
