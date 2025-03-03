@@ -12,6 +12,7 @@ import ksc.ts.model.User;
 import ksc.ts.repository.AccountRepository;
 import ksc.ts.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,21 +51,21 @@ public class AccountService {
     }
 
     @Transactional
+    @PreAuthorize("@accountService.getUserEmailByAccount(#accountId) == authentication.principal.username")
     public GetAccountResponse getAccount(Long accountId) {
-        // 사용자 검증
-        //User user = userRepository.findById(accountId).orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
 
-        // 추후 사용자 로직 포함해서 수정필요
         Account findAccount = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("계좌를 찾을 수 없습니다."));
 
         return accountMapper.toGetAccountResponse(findAccount);
 
-
-
-
     }
 
+    // AccountId -> userEmail 뽑아내는 함수
+    public String getUserEmailByAccount(Long accountId) {
+        Account findAccount = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("계좌를 찾을 수 없습니다."));
 
+        return findAccount.getUser().getUserEmail();
+    }
 
 
 

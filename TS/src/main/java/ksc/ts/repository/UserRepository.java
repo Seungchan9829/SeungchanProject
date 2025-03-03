@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // 값을 찾지 못하면 Optional.empty()
     Optional<User> findByUserEmail(String userEmail);
 
+    Optional<User> findByUserName(String userName);
+
 }

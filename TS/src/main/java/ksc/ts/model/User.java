@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column
     private String userName;
 
-    @Column
+    @Column(unique = true)
     private String userEmail;
 
     @Column
@@ -43,6 +43,10 @@ public class User implements UserDetails {
 
     public String getName(){
         return userName;
+    }
+
+    public Long getUserId() {
+        return id;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
