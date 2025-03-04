@@ -1,11 +1,10 @@
 package ksc.ts.service;
 
 import jakarta.transaction.Transactional;
-import ksc.ts.dto.account.CreateAccountRequest;
-import ksc.ts.dto.account.CreateAccountResponse;
-import ksc.ts.dto.account.GetAccountResponse;
+import ksc.ts.dto.account.*;
 import ksc.ts.exception.ResourceNotFoundException;
 import ksc.ts.exception.ResourceConflictException;
+import ksc.ts.exception.UnauthorizedException;
 import ksc.ts.mapper.AccountMapper;
 import ksc.ts.model.Account;
 import ksc.ts.model.User;
@@ -67,6 +66,34 @@ public class AccountService {
         return findAccount.getUser().getUserEmail();
     }
 
+    @Transactional
+    public UpdateAccountResponse updateAccount(User user, Long accountId, UpdateAccountRequest request) {
+        // 1. 계좌 조회
+        Account findAccount = accountRepository.findById(accountId).orElseThrow(()-> new ResourceNotFoundException("계좌를 찾을 수 없습니다"));
+
+        // 2. 권한체크
+        if(!findAccount.getUser().getId().equals(user.getId())) {
+            System.out.println("findAccount.getAccountNumber() = " + findAccount.getUser().getId());
+            System.out.println("findAccount = " + user.getId());
+            throw new UnauthorizedException("권한이 없습니다.");
+        }
+
+        // 3. 계좌 정보 업데이트. 추후 매핑으로 구현
+        findAccount.setAccountNumber(request.getAccountNumber());
+        findAccount.setAccountPassword(request.getAccountPassword());
+
+        Account updatedAccount = accountRepository.save(findAccount);
+
+        //  4. 응답 객체 생성
+        UpdateAccountResponse response = UpdateAccountResponse.builder()
+                .id(updatedAccount.getId())
+                .accountNumber(updatedAccount.getAccountNumber())
+                .accountPassword(updatedAccount.getAccountPassword())
+                .build();
+
+        return response;
+
+    }
 
 
 }

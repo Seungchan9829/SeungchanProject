@@ -1,11 +1,12 @@
 package ksc.ts.controller;
 
 
-import ksc.ts.dto.account.CreateAccountRequest;
-import ksc.ts.dto.account.CreateAccountResponse;
-import ksc.ts.dto.account.GetAccountResponse;
+import ksc.ts.dto.account.*;
+import ksc.ts.model.User;
 import ksc.ts.service.AccountService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,6 +31,13 @@ public class AccountController {
         GetAccountResponse response = accountService.getAccount(accountId);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{accountId}")
+    public ResponseEntity<UpdateAccountResponse> updateAccount(@AuthenticationPrincipal User user, @PathVariable long accountId, @RequestBody UpdateAccountRequest request) {
+        UpdateAccountResponse updateAccountResponse = accountService.updateAccount(user, accountId, request);
+
+        return ResponseEntity.ok(updateAccountResponse);
     }
 
 
