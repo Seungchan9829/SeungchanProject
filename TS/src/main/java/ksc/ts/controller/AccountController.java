@@ -2,8 +2,12 @@ package ksc.ts.controller;
 
 
 import ksc.ts.dto.account.*;
+import ksc.ts.dto.transaction.TransactionRequest;
+import ksc.ts.dto.transaction.TransactionResponse;
+import ksc.ts.model.Type;
 import ksc.ts.model.User;
 import ksc.ts.service.AccountService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,7 +50,24 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
+    // 입출금
 
+    @PostMapping("/{accountId}/transaction")
+    public ResponseEntity<TransactionResponse> processTransaction(@AuthenticationPrincipal User user, @PathVariable Long accountId, @RequestBody TransactionRequest request){
+        Type transaction_type = request.getType();
+        TransactionResponse txResponse = null;
+
+        if(transaction_type == Type.Deposit) {
+            txResponse = accountService.deposit(user, accountId, request);
+
+
+        }
+        else if(transaction_type == Type.Withdrawal) {
+           txResponse = accountService.withdrawal(user, accountId, request);
+        }
+
+        return ResponseEntity.ok(txResponse);
+    }
 
 }
 

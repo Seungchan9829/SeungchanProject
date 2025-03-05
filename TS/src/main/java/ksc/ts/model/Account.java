@@ -38,4 +38,7 @@ public class Account {
     @OneToMany(mappedBy = "account")
     List<MoneyTransaction> moneyTransactions = new ArrayList<MoneyTransaction>();
 
+    @Version
+    private Long version;
+
 }

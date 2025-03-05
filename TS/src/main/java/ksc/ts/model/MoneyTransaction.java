@@ -2,12 +2,19 @@ package ksc.ts.model;
 
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoneyTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +30,8 @@ public class MoneyTransaction {
     @Column
     private BigDecimal amount;
 
-    @Column
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime transactionDate;
 
 
