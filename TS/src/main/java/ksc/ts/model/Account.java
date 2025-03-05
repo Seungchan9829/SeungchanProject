@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -32,4 +34,8 @@ public class Account {
 
     @Column
     private String accountPassword;
+
+    @OneToMany(mappedBy = "account")
+    List<MoneyTransaction> moneyTransactions = new ArrayList<MoneyTransaction>();
+
 }
