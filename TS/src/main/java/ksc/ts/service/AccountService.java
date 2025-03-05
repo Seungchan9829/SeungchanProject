@@ -73,8 +73,6 @@ public class AccountService {
 
         // 2. 권한체크
         if(!findAccount.getUser().getId().equals(user.getId())) {
-            System.out.println("findAccount.getAccountNumber() = " + findAccount.getUser().getId());
-            System.out.println("findAccount = " + user.getId());
             throw new UnauthorizedException("권한이 없습니다.");
         }
 
@@ -92,6 +90,19 @@ public class AccountService {
                 .build();
 
         return response;
+
+    }
+
+    @Transactional
+    public void deleteAccount(User user, Long accountId) {
+        // 계좌 조회
+        Account findAccount = accountRepository.findById(accountId).orElseThrow(()-> new ResourceNotFoundException("계좌를 찾을 수 없습니다"));
+        // 권한 조회
+        if(!findAccount.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedException("권한이 없습니다.");
+        }
+        // 삭제
+        accountRepository.delete(findAccount);
 
     }
 
