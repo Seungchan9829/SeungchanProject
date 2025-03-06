@@ -18,11 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
+    private final CustomCorsConfigurationSource corsConfigurationSource;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(corsCustomizer ->
+                        corsCustomizer.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/account/**").authenticated()
