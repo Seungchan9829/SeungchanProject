@@ -152,6 +152,35 @@ public class AccountService {
 
     @Transactional
     public TransactionResponse withdrawal(User user, Long accountId, TransactionRequest request) {
-        return deposit(user, accountId, request);
+        BigDecimal depositAmount = request.getAmount();
+        // 계좌 조회
+        Account findAccount = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("계좌를 찾을 수 없습니다"));
+
+        // 권한 조회
+        if (!findAccount.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedException("권한이 없습니다.");
+        }
+
+        // 출금
+        findAccount.setAccountBalance(findAccount.getAccountBalance().subtract(depositAmount));
+        Account savedAccount = accountRepository.save(findAccount);
+
+        // 출금내역저장
+        MoneyTransaction moneyTransaction = MoneyTransaction.builder()
+                .account(findAccount)
+                .amount(depositAmount)
+                .type(request.getType())
+                .build();
+
+        MoneyTransaction savedMoneyTransaction = moneyTransactionRepository.save(moneyTransaction);
+
+        return TransactionResponse.builder()
+                .id(savedMoneyTransaction.getId())
+                .amount(savedMoneyTransaction.getAmount())
+                .type(savedMoneyTransaction.getType())
+                .transactionDate(savedMoneyTransaction.getTransactionDate())
+                .updatedBalance(savedAccount.getAccountBalance())
+                .build();
+
     }
 }
