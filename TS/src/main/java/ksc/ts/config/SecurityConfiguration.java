@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                         corsCustomizer.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/account/**").authenticated()
+                                .requestMatchers("/account/**").permitAll()//authenticated()
                                 .anyRequest().permitAll())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
