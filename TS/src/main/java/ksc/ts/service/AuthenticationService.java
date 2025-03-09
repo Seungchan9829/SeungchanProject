@@ -50,6 +50,7 @@ public class AuthenticationService {
                 .build();
     }
 
+
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

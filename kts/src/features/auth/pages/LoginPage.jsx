@@ -1,10 +1,13 @@
 import React from 'react'
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import { login } from '../api/authApi';
+import { saveTokenLocalStorage } from '../../../shared/jwt/jwtUtils';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -12,10 +15,18 @@ export default function LoginPage() {
     login({
       "userEmail" : email,
       "password" : password,
-      "userName" : "ksc"
     }).then(response => {
       const {token} = response.data;
-      console.log(token);
+      if(saveTokenLocalStorage(token)){
+        navigate('/')
+      }
+        
+    }).catch(error => {
+      if(error.response){
+        if(error.response.status == 401){
+          alert("로그인에 실패하였습니다.")
+        }
+      }
     })
     console.log({ email, password });
   };
