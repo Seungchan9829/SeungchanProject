@@ -8,6 +8,8 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const TopMenu = () => {
     const navigate = useNavigate();
+    // 유저 정보를 가지고 오는 훅
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -17,7 +19,7 @@ const TopMenu = () => {
             My App
           </Typography>
           {/* 메뉴 버튼 */}
-          <Button onClick={() => navigate("/")} color="inherit">Home</Button>
+          <Button onClick={() => navigate("/home")} color="inherit">Home</Button>
       <Button onClick={() => navigate("/login")} color="inherit">로그인</Button>
       <Button onClick={() => navigate("/register")} color="inherit">회원가입</Button>
         </Toolbar>

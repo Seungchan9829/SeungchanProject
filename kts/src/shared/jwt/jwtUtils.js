@@ -34,6 +34,16 @@ export const validateToken = (token) => {
     } catch(error) {
         return false;
     }
+}
 
+export const getUserIdByToken = () => {
+    const token = localStorage.getItem("token")
 
+    if(validateToken(token)) {
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
+        return userId
+    } else {
+        return null
+    }
 }

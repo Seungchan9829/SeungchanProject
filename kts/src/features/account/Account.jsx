@@ -1,28 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import useGetAccount from './useGetAccount';
+import Divider from '@mui/material/Divider';
+import { useNavigate } from 'react-router-dom';
 
 const AccountComponent = ({ account }) => {
+  const naviagte = useNavigate();
+  const [accountId, setAccountId] = useState(0)
+  const AccountInfo = useGetAccount(1)
+
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-      <Card sx={{ maxWidth: 400, width: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection : 'column', mt: 4, height: '370px' }}>
+      <Card  sx={{ maxWidth: 400, width: '100%', height : '80%' }}>
         <CardContent>
           <Typography variant="h5" component="div">
-            계좌 번호: {account.accountNumber}
+            계좌 번호: {account ? account.accountNumber : ''}
           </Typography>
           <Typography sx={{ mt: 1.5 }} color="text.secondary">
-            잔액: {Number(account.accountBalance).toLocaleString()} 원
+            잔액: {account ? Number(account.accountBalance).toLocaleString() : 0} 원
           </Typography>
-          {/* {account.user && (
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              소유자: {account.user.userName}
-            </Typography>
-          )} */}
         </CardContent>
         <CardActions>
           <Button variant="contained" color="primary">
@@ -33,6 +35,9 @@ const AccountComponent = ({ account }) => {
           </Button>
         </CardActions>
       </Card>
+
+      <Divider/>
+      <Button onClick = {() => naviagte('/account-management')}variant='contained'>계좌 관리</Button>
     </Box>
   );
 };
