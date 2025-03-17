@@ -8,30 +8,30 @@ import Box from '@mui/material/Box';
 import useGetAccount from './useGetAccount';
 import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
+import useTransactionProcess from './useTransactionProcess';
 
 const AccountComponent = ({ account }) => {
   const naviagte = useNavigate();
-  const [accountId, setAccountId] = useState(0)
-  const AccountInfo = useGetAccount(1)
+  const [accountId, setAccountId] = useState(1)
+  const accountInfo = useGetAccount(accountId)
 
+  console.log(accountInfo)
+  const mutation = useTransactionProcess({ accountId, type: "Deposit", amount: 10000 });
 
   return (
     <Box sx={{ display: 'flex', flexDirection : 'column', mt: 4, height: '370px' }}>
       <Card  sx={{ maxWidth: 400, width: '100%', height : '80%' }}>
         <CardContent>
           <Typography variant="h5" component="div">
-            계좌 번호: {account ? account.accountNumber : ''}
+            계좌 번호: {accountInfo ? accountInfo.accountNumber : ''}
           </Typography>
           <Typography sx={{ mt: 1.5 }} color="text.secondary">
-            잔액: {account ? Number(account.accountBalance).toLocaleString() : 0} 원
+            잔액: {accountInfo ? Number(accountInfo.accountBalance).toLocaleString() : 0} 원
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color="primary">
-            입금
-          </Button>
-          <Button variant="contained" color="secondary">
-            출금
+          <Button onClick={() => { mutation.mutate();}} variant="contained" color="primary">
+            입출금
           </Button>
         </CardActions>
       </Card>

@@ -22,3 +22,17 @@ export const createAccount = async ({accountNumber, accountPassword}) => {
 // export const depositAndWithdrawal = (request) => {
 //     return api.post(`/account/${accountId}/transaction`)
 // }
+
+export const getAccounts = async() => {
+
+}
+
+export const transcationProcess = async({accountId, type, amount }) => {
+    const requestDTO = {
+        type,
+        amount
+    }
+    const response = await api.post(`/account/${accountId}/transaction`, requestDTO)
+
+    return response.data
+}
