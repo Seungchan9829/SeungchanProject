@@ -1,6 +1,7 @@
 package ksc.ts.controller;
 
 
+import jakarta.websocket.server.PathParam;
 import ksc.ts.dto.account.*;
 import ksc.ts.dto.transaction.TransactionRequest;
 import ksc.ts.dto.transaction.TransactionResponse;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/account")
@@ -33,6 +36,13 @@ public class AccountController {
     @GetMapping("/{accountId}")
     public ResponseEntity<GetAccountResponse> getAccount(@PathVariable long accountId) {
         GetAccountResponse response = accountService.getAccount(accountId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetAccountResponse>> getAccounts(@AuthenticationPrincipal User user) {
+        List<GetAccountResponse> response = accountService.getAccounts(user);
 
         return ResponseEntity.ok(response);
     }

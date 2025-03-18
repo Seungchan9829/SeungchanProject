@@ -19,6 +19,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -73,6 +75,13 @@ public class AccountService {
 
         return findAccount.getUser().getUserEmail();
     }
+
+    public List<GetAccountResponse> getAccounts(User user) {
+        List<Account> findAccounts = accountRepository.findAccountsByUser(user);
+
+        return findAccounts.stream().map(accountMapper::toGetAccountResponse).collect(Collectors.toList());
+    }
+
 
     @Transactional
     public UpdateAccountResponse updateAccount(User user, Long accountId, UpdateAccountRequest request) {
