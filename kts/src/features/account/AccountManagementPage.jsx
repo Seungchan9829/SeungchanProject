@@ -2,6 +2,7 @@ import { Container, Box, Typography, Button } from '@mui/material'
 import React, {useState} from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import CreateAccountModal from './CreateAccountModal';
+import useGetAccounts from './useGetAccounts';
 
 
 export default function AccountManagementPage() {
@@ -9,6 +10,9 @@ export default function AccountManagementPage() {
     
     const handleOpen = () => setIsCreateAccountModalOpen(true);
     const handleClose = () => setIsCreateAccountModalOpen(false);
+
+    const accounts = useGetAccounts();
+    
     return (
     <div>
       <Container maxWidth="md">
@@ -28,7 +32,10 @@ export default function AccountManagementPage() {
             </Box>
             <Box sx = {{height : '50%'}}>
                 <DataGrid
-                    columns={[{field: '계좌번호'}, {field : '잔고'}]}/>
+                    columns={[{field: 'accountNumber', headerName : "계좌번호"}, {field : 'accountBalance', headerName : "잔고"}]}
+                    rows={accounts ? accounts : null}
+                    />
+                    
             </Box>
         </Box>
       </Container>

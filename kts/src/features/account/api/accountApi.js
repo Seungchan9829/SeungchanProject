@@ -24,7 +24,9 @@ export const createAccount = async ({accountNumber, accountPassword}) => {
 // }
 
 export const getAccounts = async() => {
+    const response = await api.get('/account');
 
+    return response.data;
 }
 
 export const transcationProcess = async({accountId, type, amount }) => {
