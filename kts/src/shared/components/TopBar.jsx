@@ -1,30 +1,40 @@
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { useNavigate, Link } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import useAuth from '../hook/useAuth';
+
 
 const TopMenu = () => {
-    const navigate = useNavigate();
-    // 유저 정보를 가지고 오는 훅
+  const { user } = useAuth();
 
+  console.log(user);
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          {/* 로고 혹은 앱 이름 */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            My App
-          </Typography>
-          {/* 메뉴 버튼 */}
-          <Button onClick={() => navigate("/home")} color="inherit">Home</Button>
-      <Button onClick={() => navigate("/login")} color="inherit">로그인</Button>
-      <Button onClick={() => navigate("/register")} color="inherit">회원가입</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <nav className="bg-black p-4">
+      <div className="container mx-auto flex justify-between items-center">
+        {/* Logo */}
+        <div className="text-white font-bold text-xl">
+          MyApp
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-6">
+          <a href="/home" className="text-gray-300 hover:text-white">Home</a>
+          {user ? (
+            // 사용자가 로그인한 상태일 때 보여줄 메뉴
+            <>
+              <span className="text-gray-300">안녕하세요, {user.username}님</span>
+              <a href="/profile" className="text-gray-300 hover:text-white">프로필</a>
+              <a href="/logout" className="text-gray-300 hover:text-white">로그아웃</a>
+            </>
+          ) : (
+            // 사용자가 로그인하지 않은 상태일 때 보여줄 메뉴
+            <>
+              <a href="/login" className="text-gray-300 hover:text-white">로그인</a>
+              <a href="/register" className="text-gray-300 hover:text-white">회원가입</a>
+            </>
+          )}
+        </div>
+
+      </div>
+    </nav>
   );
 };
 
