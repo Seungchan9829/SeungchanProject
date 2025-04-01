@@ -11,9 +11,13 @@ import HomePage from './features/home/HomePage.jsx';
 import MainLayout from './shared/components/MainLayout.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AccountManagementPage from './features/account/AccountManagementPage.jsx';
+import ProtectedRoute from './shared/auth/ProtectedRoute.jsx';
 const router = createBrowserRouter([
   { path : "/",
-    element : <MainLayout/>,
+    element : 
+      <ProtectedRoute>
+        <MainLayout/>
+      </ProtectedRoute>,
     children : [
       {path : 'home', element: <HomePage/>},
       {path : 'account-management', element : <AccountManagementPage/>}

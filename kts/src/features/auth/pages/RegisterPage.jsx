@@ -19,7 +19,6 @@ const RegisterPage = () => {
     }).then(response => {
       const {token} = response.data;
       // jwt 토큰을 로컬스토리지에 저장하는 함수.
-      saveTokenLocalStorage(token)
       alert("회원가입이 완료되었습니다.")
       // 홈으로 리다이렉트
       navigate('/')
