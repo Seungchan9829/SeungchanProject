@@ -1,13 +1,19 @@
 package ksc.ts.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Orders {
 
     @Id
@@ -31,6 +37,7 @@ public class Orders {
     private BigDecimal price;
 
     @Column
+    @NotNull
     private BigDecimal quantity;
 
     @Column
@@ -42,10 +49,10 @@ public class Orders {
     @Column
     private String timeInForce;
 
-    @Column
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column
+    @CreationTimestamp
     private LocalDateTime updatedAt;
 
 }

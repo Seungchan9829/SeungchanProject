@@ -41,6 +41,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     List<Account> accounts = new ArrayList<Account>();
 
+
     public String getName(){
         return userName;
     }

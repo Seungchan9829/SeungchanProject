@@ -17,7 +17,7 @@ public class OrderResponse {
 
     private String side;
 
-    private String OrderType;
+    private String orderType;
 
     private BigDecimal price;
 
