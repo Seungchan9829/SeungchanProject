@@ -12,6 +12,7 @@ import MainLayout from './shared/components/MainLayout.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AccountManagementPage from './features/account/AccountManagementPage.jsx';
 import ProtectedRoute from './shared/auth/ProtectedRoute.jsx';
+import TestPage from './shared/test/TestPage.jsx';
 const router = createBrowserRouter([
   { path : "/",
     element : 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage/>
+  },
+  {
+    path: "/test",
+    element: <TestPage/>
   }
 ]);
 
