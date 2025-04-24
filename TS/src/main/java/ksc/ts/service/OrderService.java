@@ -1,5 +1,6 @@
 package ksc.ts.service;
 
+import ksc.ts.dto.order.OrderHistoryResponse;
 import ksc.ts.dto.order.OrderRequest;
 import ksc.ts.dto.order.OrderResponse;
 import ksc.ts.model.Orders;
@@ -9,6 +10,7 @@ import ksc.ts.repository.TradeRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -28,12 +30,11 @@ public class OrderService {
                 .user(user)
                 .symbol(orderRequest.getSymbol())
                 .side(orderRequest.getSide())
-                .orderType("지정가")
+                .orderType(orderRequest.getOrderType())
                 .price(orderRequest.getPrice())
                 .quantity(orderRequest.getQuantity())
                 .filledQuantity(BigDecimal.ZERO)
                 .status("OPEN")
-                .timeInForce("임시")
                 .build();
 
         Orders savedOrder = orderRepository.save(newOrder);
@@ -42,10 +43,10 @@ public class OrderService {
         orderBook.addOrder(savedOrder);
         orderBook.matchOrder(savedOrder);
 
-        OrderResponse response = OrderResponse.builder()
+        return OrderResponse.builder()
                 .orderId(savedOrder.getOrderId())
                 .userId(savedOrder.getUser().getId())
-                .symbol("AAPL")
+                .symbol(savedOrder.getSymbol())
                 .side(savedOrder.getSide())
                 .orderType(savedOrder.getOrderType())
                 .price(savedOrder.getPrice())
@@ -55,7 +56,10 @@ public class OrderService {
                 .createdDate(savedOrder.getCreatedAt())
                 .updatedDate(savedOrder.getUpdatedAt())
                 .build();
+    }
 
-        return response;
+    public List<OrderHistoryResponse> getOrderHistoryBySymbol(User user, String symbol) {
+
+        return orderRepository.getOrderHistoryBySymbol(user, symbol);
     }
 }

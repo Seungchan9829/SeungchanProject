@@ -27,7 +27,17 @@ public class OrderBook {
         // 어떤 종류의 주문인지 확인
         String orderSide = orders.getSide();
         // 주문 가격 확인.`
-        BigDecimal orderPrice = orders.getPrice();
+        BigDecimal orderPrice;
+        // 주문 타입 확인
+        String orderType = orders.getOrderType();
+
+        // 주문 가격 확인
+        if (orderType.equals("지정가")) {
+            orderPrice = orders.getPrice();
+        } else {
+            orderPrice = BigDecimal.valueOf(999999999);
+        }
+
         // 주문 Id 확인
         Long orderId = orders.getOrderId();
         orderMap.put(orderId, orders);

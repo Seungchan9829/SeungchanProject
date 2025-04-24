@@ -83,7 +83,7 @@ export default function BuyOrderForm() {
         <div class = "w-full h-24 p-2 mt-10">
             <div class ="flex w-full justify-between">
                 <button class = "w-31 h-10 border-1 bg-gray-500 text-white">초기화</button>
-                <button class = "w-75 h-10 border-1 bg-red-300 text-white">매수</button>
+                <button class = "w-75 h-10 border-1 bg-red-300 text-white" onClick = {() => handleOrderSubmit()}>매수</button>
             </div>
 
         </div>

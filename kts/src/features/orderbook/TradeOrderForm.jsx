@@ -6,8 +6,6 @@ import { useSubmitOrder } from './hooks/useSubmitOrder';
 
 export default function TradeOrderForm() {
     const [side, setSide] = useState('매수')
-    const [symbol, setSymbol] = useState("AAPL")
-    const {mutate : submitOrderMutate, isLodaing, isSuccess, isError, error} = useSubmitOrder();
 
     return(
         <div class = "flex flex-col border-1 w-122 h-119">
@@ -27,8 +25,8 @@ export default function TradeOrderForm() {
                     </li>
                 </ul>
             </div>
-                {side === '매수' && <BuyOrderForm />}
-                {side === '매도' && <SellOrderForm />}
+                {side === '매수' && <BuyOrderForm/>}
+                {side === '매도' && <SellOrderForm/>}
                 {side === '거래내역' && <TradeHistoryForm/>}
         </div>
     )

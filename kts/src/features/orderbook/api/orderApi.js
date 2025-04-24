@@ -5,7 +5,8 @@ export const submitOrder =  async (orderData) => {
         symbol : orderData.symbol,
         side : orderData.side,
         price : orderData.price,
-        quantity : orderData.quantity    
+        quantity : orderData.quantity,
+        type : orderData.type   
     }
 
     const response = await api.post(`/api/orders`, orderRequest)
