@@ -31,8 +31,14 @@ public class OrderController {
         List<OrderHistoryResponse> orderHistoryResponse = orderService.getOrderHistoryBySymbol(user, symbol);
 
         return ResponseEntity.ok(orderHistoryResponse);
+    }
 
+    @PostMapping("/{orderId}/cancel")
+    public ResponseEntity<OrderResponse> cancelOrder(@AuthenticationPrincipal User user, @PathVariable Long orderId) {
 
+        OrderResponse orderResponse = orderService.cancelOrder(user, orderId);
+
+        return ResponseEntity.ok(orderResponse);
     }
 
 }

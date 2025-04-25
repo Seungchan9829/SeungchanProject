@@ -27,7 +27,7 @@ public class OrderResponse {
 
     private String status;
 
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updatedDate;
+    private LocalDateTime updatedAt;
 }

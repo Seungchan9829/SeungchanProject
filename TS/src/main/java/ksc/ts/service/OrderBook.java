@@ -6,11 +6,13 @@ import ksc.ts.model.Trades;
 import ksc.ts.repository.OrderRepository;
 import ksc.ts.repository.TradeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
 
 @RequiredArgsConstructor
+@Component
 public class OrderBook {
 
     private final TreeMap<BigDecimal, Queue<Orders>> bidBook = new TreeMap<>(Collections.reverseOrder());
@@ -56,16 +58,16 @@ public class OrderBook {
 
     }
 
-    public void cancleOrder(Orders orders){
+    public void cancelOrder(Orders orders){
         // 오더 주문 ID
         Long orderId = orders.getOrderId();
+        BigDecimal orderPrice = orders.getPrice();
+
         Orders foundOrder = orderMap.remove(orderId);
 
-        if(foundOrder != null){
+        if(foundOrder == null){
             throw new IllegalArgumentException("취소할 주문이 존재 하지 않습니다");
         }
-
-        BigDecimal orderPrice = orders.getPrice();
 
         if("B".equals(foundOrder.getOrderType())){
             Queue<Orders> ordersQueue = bidBook.get(orderPrice);
